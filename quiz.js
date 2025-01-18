@@ -1,25 +1,27 @@
-const fs = require('fs');
-const path = require('path');
+// تعريف الدالة checkAnswer
+function checkAnswer() {
+    // تعريف الإجابة الصحيحة
+    const correctAnswer = "4";
 
-// المسار إلى ملف quiz.js
-const quizFilePath = path.join(__dirname, 'quiz.js');
+    // استرجاع الإجابة المختارة من قبل المستخدم
+    const userAnswer = document.querySelector('input[name="quiz"]:checked')?.value;
 
-// دالة للتحقق من وجود دالة checkAnswer
-function checkForCheckAnswerFunction(filePath) {
-    try {
-        // قراءة محتوى الملف
-        const fileContent = fs.readFileSync(filePath, 'utf8');
+    // التحقق من وجود إجابة مختارة
+    if (userAnswer === undefined) {
+        document.getElementById("feedback").textContent = "Please select an answer!";
+        document.getElementById("feedback").style.color = "red";
+        return;
+    }
 
-        // التحقق من وجود الدالة باستخدام تعبير منتظم
-        const hasCheckAnswer = /function\s+checkAnswer\s*\(/.test(fileContent);
-
-        return hasCheckAnswer ? 1 : 0; // إرجاع 1 إذا كانت الدالة موجودة، وإلا 0
-    } catch (error) {
-        console.error('Error reading the file:', error);
-        return 0; // في حالة حدوث خطأ، نعتبر أن الدالة غير موجودة
+    // مقارنة الإجابة المختارة بالإجابة الصحيحة
+    if (userAnswer === correctAnswer) {
+        document.getElementById("feedback").textContent = "Correct! Well done.";
+        document.getElementById("feedback").style.color = "green";
+    } else {
+        document.getElementById("feedback").textContent = "That's incorrect. Try again!";
+        document.getElementById("feedback").style.color = "red";
     }
 }
 
-// حساب الدرجة
-const score = checkForCheckAnswerFunction(quizFilePath);
-console.log(`النتيجة: ${score}`);
+// إضافة مستمع حدث إلى زر "Submit Answer"
+document.getElementById("submit-answer").addEventListener("click", checkAnswer);
