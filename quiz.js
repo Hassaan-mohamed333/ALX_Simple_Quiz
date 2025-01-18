@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!selectedAnswer) {
             feedbackElement.textContent = "Please select an answer!";
             feedbackElement.style.color = "red";
-            return; 
+            return;
         }
 
         if (selectedAnswer.value === "4") {
